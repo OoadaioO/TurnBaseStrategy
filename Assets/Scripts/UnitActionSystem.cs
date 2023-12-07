@@ -43,6 +43,11 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
 
+        if (!TurnSystem.Instance.IsPlayerturn())
+        {
+            return;
+        }
+
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -70,11 +75,10 @@ public class UnitActionSystem : MonoBehaviour
             {
                 return;
             }
-            
 
             SetBusy();
             selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-            OnActionStarted?.Invoke(this,EventArgs.Empty);
+            OnActionStarted?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -92,8 +96,10 @@ public class UnitActionSystem : MonoBehaviour
                         // Unit is already selected;
                         return false;
                     }
-                    
-                    if(unit.IsEnemy()){
+
+                    if (unit.IsEnemy())
+                    {
+                        // Click the enemy
                         return false;
                     }
 

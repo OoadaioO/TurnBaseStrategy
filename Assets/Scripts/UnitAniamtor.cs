@@ -6,6 +6,8 @@ using UnityEngine;
 public class UnitAniamtor : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private Transform bulletProjectilePrefab;
+    [SerializeField] private Transform shootPointTransform;
 
 
 
@@ -20,9 +22,6 @@ public class UnitAniamtor : MonoBehaviour
         }
     }
 
-    private void ShootAction_OnShoot(object sender, EventArgs e) {
-        animator.SetTrigger("Shoot");
-    }
 
     private void MoveAction_OnStopMoving(object sender, EventArgs e) {
        animator.SetBool("IsWalking",false);
@@ -30,5 +29,17 @@ public class UnitAniamtor : MonoBehaviour
 
     private void MoveAction_OnStartMoving(object sender, EventArgs e) {
         animator.SetBool("IsWalking",true);
+    }
+
+     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e) {
+        animator.SetTrigger("Shoot");
+        Transform bulletProjectileTransform =  Instantiate(bulletProjectilePrefab,shootPointTransform.position,Quaternion.identity);
+
+        BulletProjectile bulletProjectile = bulletProjectileTransform.GetComponent<BulletProjectile>();
+
+        Vector3 targetUnitShootAtPosition = e.targetUnit.GetWorldPosition();
+        targetUnitShootAtPosition.y = shootPointTransform.position.y;
+        
+        bulletProjectile.Setup(targetUnitShootAtPosition);
     }
 }
