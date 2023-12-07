@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+
+    public event EventHandler OnShoot;
+
     private enum State
     {
         Aming,
         Shooting,
         Cooloff,
     }
+
     private State state;
     private int maxShootDistance = 7;
     private float stateTimer;
@@ -55,6 +59,7 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
+        OnShoot?.Invoke(this,EventArgs.Empty);
         targetUnit.Damage();
 
     }
