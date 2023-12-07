@@ -45,4 +45,15 @@ public class GridObject
         return gridPosition.ToString() + "\n" + unitString;
     }
 
+    public Unit GetUnit()
+    {
+        if (HasAnyUnit())
+        {
+            return unitList[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
