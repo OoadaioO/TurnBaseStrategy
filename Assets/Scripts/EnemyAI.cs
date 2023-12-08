@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (TurnSystem.Instance.IsPlayerturn())
+        if (TurnSystem.Instance.IsPlayerTurn())
         {
             return;
         }

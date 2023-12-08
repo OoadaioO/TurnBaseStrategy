@@ -38,10 +38,10 @@ public class TurnSystemUI : MonoBehaviour
     }
 
     private void UpdateEnemyTurnVisual(){
-        enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerturn());
+        enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
     }
 
     private void UpdateEndTurnButtonVisibility(){
-        endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerturn());
+        endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
     }
 }
