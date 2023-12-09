@@ -5,12 +5,12 @@ using UnityEngine;
 public class PathNode
 {
 
-
     private GridPosition gridPosition;
     private int gCost;
     private int hCost;
     private int fCost;
     private PathNode cameFromPathNode;
+    private bool isWalkable = true;
 
     public PathNode(GridPosition gridPosition)
     {
@@ -46,24 +46,38 @@ public class PathNode
         this.hCost = hCost;
     }
 
-    public void CalculateFCost(){
+    public void CalculateFCost()
+    {
         fCost = hCost + gCost;
     }
 
-    public void ResetCameFromPathNode(){
+    public void ResetCameFromPathNode()
+    {
         cameFromPathNode = null;
     }
 
- 
-    public void SetCameFromPathNode(PathNode pathNode){
+
+    public void SetCameFromPathNode(PathNode pathNode)
+    {
         cameFromPathNode = pathNode;
     }
 
-   public PathNode GetCameFromPathNode(){
+    public PathNode GetCameFromPathNode()
+    {
         return cameFromPathNode;
     }
 
-    public GridPosition GetGridPosition(){
+    public GridPosition GetGridPosition()
+    {
         return gridPosition;
+    }
+
+    public bool IsWalkable()
+    {
+        return isWalkable;
+    }
+    public void SetIsWalkable(bool isWalkable)
+    {
+        this.isWalkable = isWalkable;
     }
 }
