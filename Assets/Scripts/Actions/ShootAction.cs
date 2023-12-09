@@ -8,7 +8,8 @@ public class ShootAction : BaseAction
 
     public event EventHandler<OnShootEventArgs> OnShoot;
 
-    public class OnShootEventArgs:EventArgs{
+    public class OnShootEventArgs : EventArgs
+    {
         public Unit targetUnit;
         public Unit shootingUnit;
     }
@@ -64,7 +65,8 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
-        OnShoot?.Invoke(this,new OnShootEventArgs(){
+        OnShoot?.Invoke(this, new OnShootEventArgs()
+        {
             targetUnit = targetUnit,
             shootingUnit = unit
         });
@@ -99,9 +101,15 @@ public class ShootAction : BaseAction
 
     public override List<GridPosition> GetValidActionGridPositionList()
     {
+        GridPosition unitGridPosition = unit.GetGridPosition();
+        return GetValidActionGridPositionList(unitGridPosition);
+    }
+
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
+    {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        GridPosition unitGridPosition = unit.GetGridPosition();
+
 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
@@ -145,7 +153,7 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-      
+
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
         state = State.Aming;
@@ -156,11 +164,30 @@ public class ShootAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public Unit GetTargetUnit(){
+    public Unit GetTargetUnit()
+    {
         return targetUnit;
     }
 
-    public int GetMaxShootDistance(){
+    public int GetMaxShootDistance()
+    {
         return maxShootDistance;
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit =  LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1-targetUnit.GetHealthNormlized()) *100f)
+        };
+    }
+
+    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList(gridPosition).Count;
     }
 }
