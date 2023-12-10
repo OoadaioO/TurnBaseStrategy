@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
 
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -20,6 +21,7 @@ public class ShootAction : BaseAction
         Shooting,
         Cooloff,
     }
+    [SerializeField] private LayerMask obstacleLayerMask;
 
     private State state;
     private int maxShootDistance = 7;
@@ -65,6 +67,12 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs()
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
+
         OnShoot?.Invoke(this, new OnShootEventArgs()
         {
             targetUnit = targetUnit,
@@ -142,6 +150,22 @@ public class ShootAction : BaseAction
                     // Both Units on Same 'team'
                     continue;
                 }
+
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                float unitShoulderHeight = 1.7f;
+                if (
+                Physics.Raycast(
+                    unitWorldPosition + Vector3.up * unitShoulderHeight,
+                    shootDir,
+                    Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                    obstacleLayerMask))
+                {
+                    // Blocked by an Obstacle
+                    continue;
+                }
+
                 validGridPositionList.Add(testGridPosition);
 
             }
@@ -176,13 +200,13 @@ public class ShootAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        Unit targetUnit =  LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
 
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1-targetUnit.GetHealthNormlized()) *100f)
+            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormlized()) * 100f)
         };
     }
 
