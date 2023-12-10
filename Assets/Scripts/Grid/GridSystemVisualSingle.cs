@@ -7,7 +7,6 @@ public class GridSystemVisualSingle : MonoBehaviour
     [SerializeField] private MeshRenderer meshRenderer;
 
 
-
     private void Awake()
     {
         Hide();
@@ -24,4 +23,6 @@ public class GridSystemVisualSingle : MonoBehaviour
     {
         meshRenderer.enabled = false;
     }
+
+ 
 }

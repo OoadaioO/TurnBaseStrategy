@@ -29,6 +29,7 @@ public class GridSystemVisual : MonoBehaviour
 
     private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
 
+
     [SerializeField] private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
 
     private void Awake()
@@ -73,18 +74,12 @@ public class GridSystemVisual : MonoBehaviour
         }
 
 
-        for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
-        {
-            for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
-            {
-                gridSystemVisualSingleArray[x, z]
-                    .Show(GetGridVisualTypeMaterial(GridVisualType.White));
-            }
-        }
+     
 
     }
 
 
+ 
 
 
     public void HideAllGridPosition()
