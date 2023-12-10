@@ -72,6 +72,16 @@ public class GridSystemVisual : MonoBehaviour
             UpdateGridVisual();
         }
 
+
+        for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
+        {
+            for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
+            {
+                gridSystemVisualSingleArray[x, z]
+                    .Show(GetGridVisualTypeMaterial(GridVisualType.White));
+            }
+        }
+
     }
 
 
