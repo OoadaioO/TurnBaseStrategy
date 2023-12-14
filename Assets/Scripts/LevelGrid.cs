@@ -28,12 +28,12 @@ public class LevelGrid : MonoBehaviour
         Instance = this;
 
         gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
-        //gridSystem.CreateDebugObjects(gridDebugObjectTransform);
+        gridSystem.CreateDebugObjects(gridDebugObjectTransform);
     }
 
     private void Start()
     {
-        Pathfinding.Instance.Setup(width, height, cellSize);
+        //Pathfinding.Instance.Setup(width, height, cellSize);
     }
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
