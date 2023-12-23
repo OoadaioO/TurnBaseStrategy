@@ -33,7 +33,7 @@ public class LevelGrid : MonoBehaviour
 
     private void Start()
     {
-        //Pathfinding.Instance.Setup(width, height, cellSize);
+        Pathfinding.Instance.Setup(width, height, cellSize);
     }
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
